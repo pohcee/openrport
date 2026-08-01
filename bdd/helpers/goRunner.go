@@ -11,6 +11,7 @@ import (
 	"path"
 	"path/filepath"
 	"strings"
+	"syscall"
 	"testing"
 	"time"
 
@@ -28,7 +29,7 @@ func StartClientAndServerAndWaitForConnection(ctx context.Context, t *testing.T,
 				continue
 			}
 			assert.Fail(t, "server errors on stdErr")
-			LogAndIgnore(rd.Process.Kill())
+			LogAndIgnore(Kill(rd))
 			cancelFn()
 		}
 	}()
@@ -43,7 +44,7 @@ func StartClientAndServerAndWaitForConnection(ctx context.Context, t *testing.T,
 				continue
 			}
 			assert.Fail(t, "client errors on stdErr")
-			LogAndIgnore(rc.Process.Kill())
+			LogAndIgnore(Kill(rc))
 			cancelFn()
 		}
 	}()
@@ -80,6 +81,11 @@ func WaitForText(ctx context.Context, ch chan string, txt string) error {
 func Run(t *testing.T, pwd string, cmd string) (*exec.Cmd, chan string, chan string) {
 	rd := exec.Command("go", "run", cmd)
 	rd.Dir = pwd
+	// "go run" execs the compiled binary as a child process. Put it in its
+	// own process group so Kill() below can take out that child too -
+	// otherwise killing rd only kills the "go run" wrapper and orphans the
+	// actual server/client binary, which keeps holding its port open.
+	rd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
 
 	outPipe, err := rd.StdoutPipe()
 	assert.Nil(t, err)
@@ -122,6 +128,15 @@ func Run(t *testing.T, pwd string, cmd string) (*exec.Cmd, chan string, chan str
 
 	return rd, startChan, errChan
 
+}
+
+// Kill stops the process group started by Run, not just the "go run"
+// wrapper process itself - see the Setpgid comment in Run.
+func Kill(cmd *exec.Cmd) error {
+	if cmd == nil || cmd.Process == nil {
+		return nil
+	}
+	return syscall.Kill(-cmd.Process.Pid, syscall.SIGKILL)
 }
 
 func LogAndIgnore(err error) {

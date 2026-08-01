@@ -55,8 +55,8 @@ func (suite *UpdateAttributesTestSuite) SetupTest() {
 }
 
 func (suite *UpdateAttributesTestSuite) TearDownTest() {
-	helpers.LogAndIgnore(suite.clientProcess.Process.Kill())
-	helpers.LogAndIgnore(suite.serverProcess.Process.Kill())
+	helpers.LogAndIgnore(helpers.Kill(suite.clientProcess))
+	helpers.LogAndIgnore(helpers.Kill(suite.serverProcess))
 	log.Println("done")
 }
 

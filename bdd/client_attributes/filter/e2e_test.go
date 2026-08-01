@@ -38,8 +38,8 @@ func (suite *TagsAndLabelsTestSuite) SetupSuite() {
 }
 
 func (suite *TagsAndLabelsTestSuite) TearDownSuite() {
-	helpers.LogAndIgnore(suite.clientProcess.Process.Kill())
-	helpers.LogAndIgnore(suite.serverProcess.Process.Kill())
+	helpers.LogAndIgnore(helpers.Kill(suite.clientProcess))
+	helpers.LogAndIgnore(helpers.Kill(suite.serverProcess))
 }
 
 func (suite *TagsAndLabelsTestSuite) TestClientHasTags() {

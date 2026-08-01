@@ -646,9 +646,9 @@ func (c *Client) CalculateConnectionState() ConnectionState {
 
 func (c *Client) calculateConnectionStateUnlocked() ConnectionState {
 	if c.DisconnectedAt != nil {
-		return Connected
+		return Disconnected
 	}
-	return Disconnected
+	return Connected
 }
 
 // HasAccessViaUserGroups returns true if at least one of given user groups has access to a current client.
