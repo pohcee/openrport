@@ -54,3 +54,6 @@ cheat-sheet.txt
 rport-plus
 # local docroot
 docroot/
+
+# local dev data dir (sqlite dbs, etc.)
+.data/

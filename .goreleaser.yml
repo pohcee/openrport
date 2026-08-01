@@ -87,7 +87,7 @@ changelog:
   sort: asc
 release:
   github:
-    owner: openrport
+    owner: pohcee
     name: openrport
   draft: true
   prerelease: true

@@ -279,6 +279,11 @@ func (al *APIListener) initRouter() {
 			},
 			AllowedHeaders: []string{"Authorization", "Content-Type"},
 		}).Handler)
+
+		// gorilla/mux only applies r.Use() middlewares to matched routes. None of the routes above
+		// are registered for OPTIONS, so without this catch-all, preflight requests 404 before the
+		// CORS middleware above ever gets a chance to answer them.
+		r.Methods(http.MethodOptions).PathPrefix("/").HandlerFunc(func(http.ResponseWriter, *http.Request) {})
 	}
 
 	r.Use(handlers.CompressHandler)
