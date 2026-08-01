@@ -3,7 +3,7 @@ on: [push]
 jobs:
   test:
     name: Test Client Windows
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v2
       - name: Set up Go
