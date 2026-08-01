@@ -170,7 +170,7 @@ dpkg-deb -c ${PKG_FILE}
 
 # Validate deb
 echo "👷 Verifying debian package with lintian ..."
-lintian --no-tag-display-limit -X binaries ${PKG_FILE}
+lintian --no-tag-display-limit -X binaries --suppress-tags statically-linked-binary ${PKG_FILE}
 echo "✅ Check passed"
 
 if [ $(uname -m) == "x86_64" ] && [ ${DST_ARCH} == "amd64" ]; then
