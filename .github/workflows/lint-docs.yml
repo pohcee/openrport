@@ -12,3 +12,4 @@ jobs:
         run: |
           cd docs
           npx markdownlint-cli  content/
+# trigger workflow registration

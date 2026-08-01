@@ -23,3 +23,5 @@ jobs:
           ~/bin/golangci-lint version
           echo "Running ~/bin/golangci-lint run"
           ~/bin/golangci-lint run
+
+# trigger workflow registration

@@ -17,3 +17,4 @@ jobs:
             jq < ~/apidoclint.json
             if [ $(jq -r .totals.warnings < ~/apidoclint.json) -gt 0 ];then false;fi
           fi
+# trigger workflow registration
