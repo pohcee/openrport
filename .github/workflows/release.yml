@@ -48,8 +48,11 @@ jobs:
       - name: Create DEB packages
         id: create_deb
         run: |
-          # Loop over specified folders in the dist folder to create packages
-          SOURCES="amd64_v1 arm64 386 arm_7" # Refers to dist/rport_linux_${SOURCE}
+          # Loop over specified folders in the dist folder to create packages.
+          # arm64/386 carry a goreleaser microarchitecture suffix (arm64_v8.0,
+          # 386_sse2) since newer goreleaser versions - deb-build.sh strips it
+          # back off when naming the .deb.
+          SOURCES="amd64_v1 arm64_v8.0 386_sse2 arm_7" # Refers to dist/rport_linux_${SOURCE}
           for SRC in $SOURCES; do
             bash .github/scripts/deb-build.sh ${SRC}
           done
@@ -61,7 +64,7 @@ jobs:
           cat <<EOF|docker run --interactive --rm --env GITHUB_REF_NAME --name rocky \
             --mount type=bind,source="$(pwd)",target=/run rockylinux:9 bash -
           cd /run
-          SOURCES="amd64_v1 arm64 386"
+          SOURCES="amd64_v1 arm64_v8.0 386_sse2"
           for SRC in \$SOURCES; do
           bash .github/scripts/rpm-build.sh \${SRC}
           done

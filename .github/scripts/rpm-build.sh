@@ -10,8 +10,8 @@ set -e
 INPUT_ARCH=$1
 BIN_FILE=$(pwd)/dist/rport_linux_${INPUT_ARCH}/rport
 DST_ARCH=${INPUT_ARCH//amd64_v1/x86_64}
-DST_ARCH=${DST_ARCH//386/i686}
-DST_ARCH=${DST_ARCH//arm64/aarch64}
+DST_ARCH=${DST_ARCH//386_sse2/i686}
+DST_ARCH=${DST_ARCH//arm64_v8.0/aarch64}
 
 if [ -e ${BIN_FILE} ]; then
     true

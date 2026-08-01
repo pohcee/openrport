@@ -15,7 +15,8 @@ INPUT_ARCH=$1
 BIN_FILE=./dist/rport_linux_${INPUT_ARCH}/rport
 DST_ARCH=${INPUT_ARCH//amd64_v1/amd64}
 DST_ARCH=${DST_ARCH//arm_7/armhf}
-DST_ARCH=${DST_ARCH//386/i386}
+DST_ARCH=${DST_ARCH//arm64_v8.0/arm64}
+DST_ARCH=${DST_ARCH//386_sse2/i386}
 
 if [ -e ${BIN_FILE} ]; then
     true
