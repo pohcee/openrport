@@ -50,11 +50,11 @@ Get-ChildItem -File *.exe
 .\rport.exe --version
 
 Write-Output "[*] Creating wixobj's"
-& 'C:\Program Files (x86)\WiX Toolset v3.11\bin\candle.exe' -dPlatform=x64 -ext WixUtilExtension opt/resource/*.wxs
+& 'C:\Program Files (x86)\WiX Toolset v3.14\bin\candle.exe' -dPlatform=x64 -ext WixUtilExtension opt/resource/*.wxs
 Start-Sleep 2
 
 Write-Output "[*] Creating MSI"
-& 'C:\Program Files (x86)\WiX Toolset v3.11\bin\light.exe' `
+& 'C:\Program Files (x86)\WiX Toolset v3.14\bin\light.exe' `
   -loc opt/resource/Product_en-us.wxl `
   -ext WixUtilExtension -ext WixUIExtension -sval `
   -out $msiFileName LicenseAgreementDlg_HK.wixobj WixUI_HK.wixobj Product.wixobj
