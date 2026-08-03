@@ -21,7 +21,7 @@ func (al *APIListener) handleListSchedules(w http.ResponseWriter, req *http.Requ
 		return
 	}
 
-	al.writeJSONResponse(w, http.StatusOK, api.NewSuccessPayload(items))
+	al.writeJSONResponse(w, http.StatusOK, items)
 }
 
 func (al *APIListener) prepareHandleSchedules(req *http.Request) (schedule.Schedule, string, []*clientdata.Client, error) {
