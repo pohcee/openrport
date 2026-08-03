@@ -47,6 +47,7 @@ jobs:
 
       - name: Create DEB packages
         id: create_deb
+        if: ${{ secrets.REPO_SSH_HOST != '' }}
         run: |
           # Loop over specified folders in the dist folder to create packages.
           # arm64/386 carry a goreleaser microarchitecture suffix (arm64_v8.0,
@@ -60,6 +61,7 @@ jobs:
 
       - name: Create RPM packages
         id: create_rpm
+        if: ${{ secrets.REPO_SSH_HOST != '' }}
         run: |
           cat <<EOF|docker run --interactive --rm --env GITHUB_REF_NAME --name rocky \
             --mount type=bind,source="$(pwd)",target=/run rockylinux:9 bash -
@@ -74,6 +76,7 @@ jobs:
 
       - name: Publish RPM and DEB packages
         id: publish_pkgs
+        if: ${{ secrets.REPO_SSH_HOST != '' }}
         env:
           REPO_SSH_PRIV_KEY: ${{ secrets.REPO_SSH_PRIV_KEY }}
           REPO_SSH_PORT: ${{ secrets.REPO_SSH_PORT }}

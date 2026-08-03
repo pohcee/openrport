@@ -89,5 +89,5 @@ release:
   github:
     owner: pohcee
     name: openrport
-  draft: true
+  draft: false
   prerelease: true
