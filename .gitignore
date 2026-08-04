@@ -49,6 +49,8 @@ cheat-sheet.txt
 
 # resources genereated during tests
 *test-resources
+server/notifications/out.json
+server/notifications/channels/scriptRunner/out.json
 
 # plus dev
 rport-plus
