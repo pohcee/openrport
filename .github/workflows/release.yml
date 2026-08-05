@@ -51,7 +51,6 @@ jobs:
 
       - name: Create DEB packages
         id: create_deb
-        if: ${{ env.REPO_SSH_HOST != '' }}
         run: |
           # Loop over specified folders in the dist folder to create packages.
           # arm64/386 carry a goreleaser microarchitecture suffix (arm64_v8.0,
@@ -65,7 +64,6 @@ jobs:
 
       - name: Create RPM packages
         id: create_rpm
-        if: ${{ env.REPO_SSH_HOST != '' }}
         run: |
           cat <<EOF|docker run --interactive --rm --env GITHUB_REF_NAME --name rocky \
             --mount type=bind,source="$(pwd)",target=/run rockylinux:9 bash -
@@ -77,6 +75,10 @@ jobs:
           EOF
           ls -lh *.rpm
 
+      - name: Attach DEB/RPM packages to the GitHub release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload "${GITHUB_REF_NAME}" *.deb *.rpm --clobber
 
       - name: Publish RPM and DEB packages
         id: publish_pkgs

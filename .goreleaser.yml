@@ -90,4 +90,4 @@ release:
     owner: pohcee
     name: openrport
   draft: false
-  prerelease: true
+  prerelease: false
